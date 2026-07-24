@@ -183,7 +183,7 @@ export default function TechStack() {
         {/* Pure Official Brand Logos Grid */}
         <div style={{ display: 'flex', justifyContent: 'center', gap: '2.5rem', flexWrap: 'wrap', position: 'relative' }}>
           {techData.map((tech) => (
-            <div key={tech.id} style={{ position: 'relative' }}>
+            <div key={tech.id} className="tech-icon-wrapper">
               
               {/* Clean Official Logo Icon Only */}
               <motion.button

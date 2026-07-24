@@ -177,6 +177,10 @@ h1, h2, h3, h4 {
 }
 
 /* Tech Stack Popup (Responsive fix) */
+.tech-icon-wrapper {
+  position: relative;
+}
+
 .tech-popup {
   /* Desktop styles are applied via inline style in Hero.jsx */
 }
@@ -278,6 +282,10 @@ h1, h2, h3, h4 {
   
   .hamburger-btn {
     display: flex !important;
+  }
+  
+  .tech-icon-wrapper {
+    position: static !important;
   }
   
   /* Helper to hide things on mobile */
