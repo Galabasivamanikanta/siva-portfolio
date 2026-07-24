@@ -246,8 +246,8 @@ export default function Hero() {
                   θ=+20°: x=97.0%, y=67.1%
                   θ=+60°: x=75.0%, y=93.3%
               */}
-              {/* Rotating Dot Container — physically rotates the dots along the orbital track */}
-              <motion.div
+              {/* Static Dot Container — dots slide along the track individually */}
+              <div
                 style={{
                   position: 'absolute',
                   width: '100%',
@@ -255,24 +255,30 @@ export default function Hero() {
                   pointerEvents: 'none',
                   zIndex: 30
                 }}
-                animate={{ rotate: (3 - activeDot) * 40 }}
-                transition={{ type: 'spring', stiffness: 60, damping: 15 }}
               >
-                {[
-                  { top: '6.7%',  left: '75.0%' },
-                  { top: '32.9%', left: '97.0%' },
-                  { top: '67.1%', left: '97.0%' },
-                  { top: '93.3%', left: '75.0%' }
-                ].map((pos, idx) => {
+                {orbitalDetails.map((detail, idx) => {
                   const isActive = activeDot === idx;
-                  const dotColor = orbitalDetails[idx].color;
+                  const dotColor = detail.color;
+                  
+                  // Calculate shifting coordinate position so activeDot is always at bottom-most spot (Index 3)
+                  const posIdx = (idx - activeDot + 7) % 4;
+                  const pos = [
+                    { top: '6.7%',  left: '75.0%' },
+                    { top: '32.9%', left: '97.0%' },
+                    { top: '67.1%', left: '97.0%' },
+                    { top: '93.3%', left: '75.0%' }
+                  ][posIdx];
+
                   return (
-                    <div
+                    <motion.div
                       key={idx}
+                      animate={{
+                        top: pos.top,
+                        left: pos.left
+                      }}
+                      transition={{ type: 'spring', stiffness: 70, damping: 14 }}
                       style={{
                         position: 'absolute',
-                        top: pos.top,
-                        left: pos.left,
                         transform: 'translate(-50%, -50%)',
                         pointerEvents: 'auto'
                       }}
@@ -299,10 +305,10 @@ export default function Hero() {
                           transition: 'all 0.3s ease'
                         }}
                       />
-                    </div>
+                    </motion.div>
                   );
                 })}
-              </motion.div>
+              </div>
 
               {/* Data Popup — Rendered outside the dots to avoid CSS transform containing block trapping */}
               <AnimatePresence mode="wait">
