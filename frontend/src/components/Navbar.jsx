@@ -48,8 +48,9 @@ export default function Navbar() {
   ];
 
   return (
-    <motion.header
-      initial={{ y: -100, opacity: 0 }}
+    <>
+      <motion.header
+        initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 3.5 }}
       style={{
@@ -196,8 +197,8 @@ export default function Navbar() {
           )}
         </div>
       </div>
-      
-      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </motion.header>
+    <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
+    </>
   );
 }
