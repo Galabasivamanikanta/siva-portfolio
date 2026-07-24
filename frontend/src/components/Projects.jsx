@@ -229,7 +229,7 @@ export default function Projects() {
               textAlign: 'left'
             }}
           >
-            <div className="grid-2-col gap-xl" style={{ alignItems: 'center', gridTemplateColumns: 'minmax(260px, 320px) 1fr' }}>
+            <div className="grid-2-col gap-xl" style={{ alignItems: 'center' }}>
               
               {/* LEFT COLUMN: Official Vector Logo, Subtitle, Buttons (Directly over space) */}
               <div className="flex-col flex-center" style={{ textAlign: 'center' }}>
