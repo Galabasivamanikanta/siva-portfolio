@@ -255,7 +255,7 @@ export default function Hero() {
                   pointerEvents: 'none',
                   zIndex: 30
                 }}
-                animate={{ rotate: -activeDot * 40 }}
+                animate={{ rotate: (3 - activeDot) * 40 }}
                 transition={{ type: 'spring', stiffness: 60, damping: 15 }}
               >
                 {[
@@ -315,8 +315,8 @@ export default function Hero() {
                   transition={{ duration: 0.2 }}
                   style={{
                     position: 'absolute',
-                    bottom: '-120px',
-                    left: '50%',
+                    bottom: '-110px',
+                    left: '75%',
                     transform: 'translateX(-50%)',
                     width: '280px',
                     height: 'auto',
