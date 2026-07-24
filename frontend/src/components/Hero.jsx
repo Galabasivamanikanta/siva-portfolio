@@ -197,7 +197,8 @@ export default function Hero() {
                   top: '50%',
                   left: '50%',
                   transform: 'translate(-50%, -50%)',
-                  width: '75%',
+                  width: '90%',
+                  height: '90%',
                   zIndex: 10,
                   display: 'flex',
                   justifyContent: 'center',
@@ -211,8 +212,8 @@ export default function Hero() {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
                   style={{
-                    width: '100%',
-                    height: 'auto',
+                    maxWidth: '100%',
+                    maxHeight: '100%',
                     objectFit: 'contain',
                     filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.7))'
                   }}
