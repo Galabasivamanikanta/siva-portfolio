@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from './AuthContext';
-import { Shield, UserCheck, Terminal, Code2 } from 'lucide-react';
+import { Terminal, Code2 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import LoginModal from './LoginModal';
 
 export default function Navbar() {
-  const { user, logout } = useAuth();
   const [activeSection, setActiveSection] = useState('hero');
   const [scrolled, setScrolled] = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,10 +29,6 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleGoogleLoginClick = () => {
-    setIsLoginModalOpen(true);
-  };
 
   const navLinks = [
     { id: 'hero', label: 'Home' },
@@ -160,45 +152,8 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Recruiter / Admin Auth Section */}
-        <div style={{ borderLeft: '1px solid rgba(255,255,255,0.15)', paddingLeft: '1rem', display: 'flex', alignItems: 'center' }}>
-          {!user ? (
-            <button
-              onClick={handleGoogleLoginClick}
-              className="btn-glass-primary"
-              style={{ padding: '0.4rem 1rem', fontSize: '0.8rem' }}
-            >
-              <Shield size={14} /> Login
-            </button>
-          ) : (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-              <span style={{ fontSize: '0.8rem', color: '#4ade80', display: 'flex', alignItems: 'center', gap: '0.3rem', fontWeight: 600 }}>
-                <UserCheck size={14} /> {user.name}
-              </span>
-              {user.role === 'admin' && (
-                <a href="/admin" className="btn-glass-secondary" style={{ padding: '0.3rem 0.8rem', fontSize: '0.8rem' }}>
-                  Admin Dashboard
-                </a>
-              )}
-              <button
-                onClick={logout}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: 'rgba(255,255,255,0.5)',
-                  cursor: 'pointer',
-                  fontSize: '0.75rem',
-                  textDecoration: 'underline'
-                }}
-              >
-                Logout
-              </button>
-            </div>
-          )}
-        </div>
       </div>
     </motion.header>
-    <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </>
   );
 }
