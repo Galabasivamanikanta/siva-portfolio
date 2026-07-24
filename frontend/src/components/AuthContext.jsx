@@ -11,10 +11,11 @@ export const AuthProvider = ({ children }) => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
     const name = params.get('name');
+    const email = params.get('email');
     const role = params.get('role');
 
     if (token && name) {
-      const userData = { token, name, role };
+      const userData = { token, name, email, role };
       setUser(userData);
       localStorage.setItem('recruiter_user', JSON.stringify(userData));
       // Clean up the URL

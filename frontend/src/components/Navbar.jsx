@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { Shield, UserCheck, Terminal, Code2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import LoginModal from './LoginModal';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const [activeSection, setActiveSection] = useState('hero');
   const [scrolled, setScrolled] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,8 +34,8 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleGoogleLogin = () => {
-    window.location.href = 'http://localhost:5000/auth/google';
+  const handleGoogleLoginClick = () => {
+    setIsLoginModalOpen(true);
   };
 
   const navLinks = [
@@ -161,7 +163,7 @@ export default function Navbar() {
         <div style={{ borderLeft: '1px solid rgba(255,255,255,0.15)', paddingLeft: '1rem', display: 'flex', alignItems: 'center' }}>
           {!user ? (
             <button
-              onClick={handleGoogleLogin}
+              onClick={handleGoogleLoginClick}
               className="btn-glass-primary"
               style={{ padding: '0.4rem 1rem', fontSize: '0.8rem' }}
             >
@@ -194,6 +196,8 @@ export default function Navbar() {
           )}
         </div>
       </div>
+      
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </motion.header>
   );
 }

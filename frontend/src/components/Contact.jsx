@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Send, CheckCircle2, Mail, User, MessageSquare, Tag, AlertCircle } from 'lucide-react';
 import { sound } from '../utils/sound';
+import { useAuth } from './AuthContext';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [isSending, setIsSending] = useState(false);
   const [sentSuccess, setSentSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      setFormData(prev => ({
+        ...prev,
+        name: user.name || '',
+        email: user.email || ''
+      }));
+    }
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

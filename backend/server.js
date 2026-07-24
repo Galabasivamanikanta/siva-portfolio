@@ -41,7 +41,7 @@ const sendAdminAlert = async (recruiter) => {
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID || 'dummy_id',
     clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'dummy_secret',
-    callbackURL: "/auth/google/callback"
+    callbackURL: "/api/auth/google/callback"
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
@@ -70,12 +70,12 @@ passport.use(new GoogleStrategy({
 app.use(passport.initialize());
 
 // Auth Routes
-app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+app.get('/api/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-app.get('/auth/google/callback', passport.authenticate('google', { session: false }), (req, res) => {
+app.get('/api/auth/google/callback', passport.authenticate('google', { session: false }), (req, res) => {
   const token = jwt.sign({ id: req.user._id, role: req.user.role }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
   res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
-  res.redirect(`${process.env.FRONTEND_URL}?token=${token}&name=${encodeURIComponent(req.user.name)}&role=${req.user.role}`);
+  res.redirect(`${process.env.FRONTEND_URL}?token=${token}&name=${encodeURIComponent(req.user.name)}&email=${encodeURIComponent(req.user.email)}&role=${req.user.role}`);
 });
 
 // Middleware for protected routes
