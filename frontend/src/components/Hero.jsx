@@ -246,7 +246,7 @@ export default function Hero() {
                   θ=+20°: x=97.0%, y=67.1%
                   θ=+60°: x=75.0%, y=93.3%
               */}
-              {/* Static Dot Container — dots slide along the track individually */}
+              {/* Static Dot Container — dots stay in fixed positions */}
               <div
                 style={{
                   position: 'absolute',
@@ -256,29 +256,21 @@ export default function Hero() {
                   zIndex: 30
                 }}
               >
-                {orbitalDetails.map((detail, idx) => {
+                {[
+                  { top: '6.7%',  left: '75.0%' },
+                  { top: '32.9%', left: '97.0%' },
+                  { top: '67.1%', left: '97.0%' },
+                  { top: '93.3%', left: '75.0%' }
+                ].map((pos, idx) => {
                   const isActive = activeDot === idx;
-                  const dotColor = detail.color;
-                  
-                  // Calculate shifting coordinate position so activeDot is always at bottom-most spot (Index 3)
-                  const posIdx = (idx - activeDot + 7) % 4;
-                  const pos = [
-                    { top: '6.7%',  left: '75.0%' },
-                    { top: '32.9%', left: '97.0%' },
-                    { top: '67.1%', left: '97.0%' },
-                    { top: '93.3%', left: '75.0%' }
-                  ][posIdx];
-
+                  const dotColor = orbitalDetails[idx].color;
                   return (
-                    <motion.div
+                    <div
                       key={idx}
-                      animate={{
-                        top: pos.top,
-                        left: pos.left
-                      }}
-                      transition={{ type: 'spring', stiffness: 70, damping: 14 }}
                       style={{
                         position: 'absolute',
+                        top: pos.top,
+                        left: pos.left,
                         transform: 'translate(-50%, -50%)',
                         pointerEvents: 'auto'
                       }}
@@ -305,7 +297,7 @@ export default function Hero() {
                           transition: 'all 0.3s ease'
                         }}
                       />
-                    </motion.div>
+                    </div>
                   );
                 })}
               </div>
@@ -315,15 +307,24 @@ export default function Hero() {
                 <motion.div
                   key={activeDot}
                   className="tech-popup"
-                  initial={{ opacity: 0, scale: 0.85, x: -10 }}
+                  initial={{ opacity: 0, scale: 0.85, x: 10 }}
                   animate={{ opacity: 1, scale: 1, x: 0 }}
                   exit={{ opacity: 0, scale: 0.85 }}
                   transition={{ duration: 0.2 }}
                   style={{
                     position: 'absolute',
-                    bottom: '-110px',
-                    left: '75%',
-                    transform: 'translateX(-50%)',
+                    top: [
+                      { top: '0%' },
+                      { top: '15%' },
+                      { top: '55%' },
+                      { top: '75%' }
+                    ][activeDot].top,
+                    left: [
+                      { left: 'calc(75% - 295px)' },
+                      { left: 'calc(97% - 295px)' },
+                      { left: 'calc(97% - 295px)' },
+                      { left: 'calc(75% - 295px)' }
+                    ][activeDot].left,
                     width: '280px',
                     height: 'auto',
                     display: 'block',
@@ -333,7 +334,6 @@ export default function Hero() {
                     border: `1px solid ${orbitalDetails[activeDot].color}60`,
                     boxShadow: `0 10px 30px rgba(0,0,0,0.8), 0 0 20px ${orbitalDetails[activeDot].color}20`,
                     pointerEvents: 'none',
-                    zIndex: 50
                   }}
                 >
                   <div className="flex-row items-center gap-xs" style={{ marginBottom: '0.3rem' }}>
