@@ -58,6 +58,7 @@ export default function Navbar() {
       }}
     >
       <div
+        className="mobile-header-inner"
         style={{
           pointerEvents: 'auto',
           display: 'flex',
@@ -115,7 +116,7 @@ export default function Navbar() {
         </a>
 
         {/* Navigation Items */}
-        <nav className="hidden-mobile" style={{ display: 'flex', gap: '0.3rem', alignItems: 'center' }}>
+        <nav className="mobile-nav-wrap" style={{ display: 'flex', gap: '0.3rem', alignItems: 'center' }}>
           {navLinks.map((link) => {
             const isActive = activeSection === link.id;
             return (
