@@ -164,11 +164,11 @@ export default function Navbar() {
         <div style={{ borderLeft: '1px solid rgba(255,255,255,0.15)', paddingLeft: '1rem', display: 'flex', alignItems: 'center' }}>
           {!user ? (
             <button
-              onClick={handleGoogleLoginClick}
-              className="btn-glass-primary"
-              style={{ padding: '0.4rem 1rem', fontSize: '0.8rem' }}
+              disabled
+              style={{ padding: '0.4rem 1rem', fontSize: '0.8rem', background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.4)', border: '1px solid rgba(255,255,255,0.1)', cursor: 'not-allowed', borderRadius: '99px', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+              title="Authentication system is currently being upgraded. Please check back in a few minutes."
             >
-              <Shield size={14} /> Login
+              <Shield size={14} /> System Updating...
             </button>
           ) : (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
