@@ -265,15 +265,19 @@ h1, h2, h3, h4 {
   
   /* Mobile Responsive Navbar Flexbox layout */
   .mobile-header-inner {
-    flex-direction: column !important;
-    padding: 0.8rem 1.2rem !important;
-    gap: 0.6rem !important;
-    border-radius: 24px !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    padding: 0.5rem 1.2rem !important;
+    border-radius: 99px !important;
+    width: 100% !important;
   }
   
-  .mobile-nav-wrap {
-    flex-wrap: wrap;
-    justify-content: center;
+  .desktop-nav-wrap {
+    display: none !important;
+  }
+  
+  .hamburger-btn {
+    display: flex !important;
   }
   
   /* Helper to hide things on mobile */
