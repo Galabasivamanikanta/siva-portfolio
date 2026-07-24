@@ -302,19 +302,10 @@ export default function Hero() {
                   transition={{ duration: 0.2 }}
                   style={{
                     position: 'absolute',
-                    top: [
-                      { top: '6.7%',  left: '75.0%', popupLeft: 'calc(75% + 25px)', popupTop: '0%' },
-                      { top: '32.9%', left: '97.0%', popupLeft: 'calc(97% + 25px)', popupTop: '20%' },
-                      { top: '67.1%', left: '97.0%', popupLeft: 'calc(97% + 25px)', popupTop: '60%' },
-                      { top: '93.3%', left: '75.0%', popupLeft: 'calc(75% + 25px)', popupTop: '85%' }
-                    ][activeDot].popupTop,
-                    left: [
-                      { top: '6.7%',  left: '75.0%', popupLeft: 'calc(75% + 25px)', popupTop: '0%' },
-                      { top: '32.9%', left: '97.0%', popupLeft: 'calc(97% + 25px)', popupTop: '20%' },
-                      { top: '67.1%', left: '97.0%', popupLeft: 'calc(97% + 25px)', popupTop: '60%' },
-                      { top: '93.3%', left: '75.0%', popupLeft: 'calc(75% + 25px)', popupTop: '85%' }
-                    ][activeDot].popupLeft,
-                    width: '240px',
+                    bottom: '-45px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    width: '280px',
                     height: 'auto',
                     display: 'block',
                     padding: '0.85rem 1rem',
