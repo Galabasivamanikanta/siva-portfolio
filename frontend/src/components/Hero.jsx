@@ -191,25 +191,33 @@ export default function Hero() {
               }}
             >
               {/* Portrait Image — perfectly centered in the circle container */}
-              <motion.img
-                src="/siva_transparent.png"
-                alt="Siva Manikanta Galaba"
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+              <div
                 style={{
-                  width: '60%',
-                  height: 'auto',
-                  objectFit: 'contain',
-                  filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.7))',
                   position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  margin: '0 auto',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: '75%',
                   zIndex: 10,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
                 }}
-              />
+              >
+                <motion.img
+                  src="/siva_transparent.png"
+                  alt="Siva Manikanta Galaba"
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    objectFit: 'contain',
+                    filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.7))'
+                  }}
+                />
+              </div>
 
               {/* Right-side Semi-Circle Arc — 100% size, centered */}
               <div
