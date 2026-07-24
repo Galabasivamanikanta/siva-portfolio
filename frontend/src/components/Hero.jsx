@@ -45,7 +45,7 @@ export default function Hero() {
   return (
     <section id="hero" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', paddingTop: '6rem' }}>
       <div className="section-container" style={{ width: '100%' }}>
-        <div className="grid-2-col" style={{ alignItems: 'center', gap: '4rem' }}>
+        <div className="grid-2-col" style={{ alignItems: 'center' }}>
           
           {/* RIGHT SIDE: Minimal Professional Content (Shifted to right) */}
           <motion.div
@@ -293,23 +293,16 @@ export default function Hero() {
                       {isActive && (
                         <motion.div
                           key={idx}
+                          className="tech-popup"
                           initial={{ opacity: 0, scale: 0.85, x: -10 }}
                           animate={{ opacity: 1, scale: 1, x: 0 }}
                           exit={{ opacity: 0, scale: 0.85 }}
                           transition={{ duration: 0.2 }}
                           style={{
-                            position: 'absolute',
                             top: pos.popupTop,
                             left: '45px', // Fixed pixel value guarantees it completely clears the dot and shadow
-                            width: '200px',
-                            padding: '0.85rem 1rem',
-                            borderRadius: '14px',
-                            background: 'rgba(8, 8, 16, 0.97)',
                             border: `1px solid ${dotColor}60`,
-                            boxShadow: `0 10px 30px rgba(0,0,0,0.8), 0 0 20px ${dotColor}20`,
-                            textAlign: 'left',
-                            pointerEvents: 'none',
-                            zIndex: 50
+                            boxShadow: `0 10px 30px rgba(0,0,0,0.8), 0 0 20px ${dotColor}20`
                           }}
                         >
                           <div className="flex-row items-center gap-xs" style={{ marginBottom: '0.3rem' }}>

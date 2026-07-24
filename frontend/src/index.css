@@ -237,3 +237,44 @@ h1, h2, h3, h4 {
 .gap-lg { gap: 1.5rem; }
 .gap-xl { gap: 2rem; }
 .gap-2xl { gap: 2.5rem; }
+
+/* ----------------------------------
+   MOBILE RESPONSIVENESS OVERRIDES
+   ---------------------------------- */
+@media (max-width: 768px) {
+  /* Reduce global section padding on mobile */
+  .section-container {
+    padding: 4rem 1.5rem;
+  }
+  
+  /* Make typography smaller */
+  .section-title {
+    font-size: 2rem;
+  }
+  .section-subtitle {
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  /* Force grid layouts to 1 column on small screens to prevent horizontal scroll */
+  .grid-2-col, .grid-3-col {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  /* Adjust glass card padding to save space */
+  .glass-card {
+    padding: 1.5rem !important;
+  }
+  
+  /* Flex direction utilities for mobile */
+  .flex-col-mobile {
+    flex-direction: column !important;
+    align-items: center;
+  }
+  
+  /* Helper to hide things on mobile */
+  .hidden-mobile {
+    display: none !important;
+  }
+}

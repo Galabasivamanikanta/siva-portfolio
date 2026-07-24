@@ -123,7 +123,7 @@ export default function Navbar() {
         </a>
 
         {/* Navigation Items */}
-        <nav style={{ display: 'flex', gap: '0.3rem', alignItems: 'center' }}>
+        <nav className="hidden-mobile" style={{ display: 'flex', gap: '0.3rem', alignItems: 'center' }}>
           {navLinks.map((link) => {
             const isActive = activeSection === link.id;
             return (
