@@ -315,6 +315,8 @@ export default function Hero() {
                       { top: '93.3%', left: '75.0%', popupLeft: 'calc(75% + 25px)', popupTop: '85%' }
                     ][activeDot].popupLeft,
                     width: '240px',
+                    height: 'auto',
+                    display: 'block',
                     padding: '0.85rem 1rem',
                     borderRadius: '14px',
                     background: 'rgba(8, 8, 16, 0.97)',
