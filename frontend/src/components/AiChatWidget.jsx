@@ -184,8 +184,8 @@ export default function AiChatWidget() {
         whileTap={{ scale: 0.95 }}
         style={{
           position: 'fixed',
-          bottom: '2rem',
-          right: '2rem',
+          bottom: '1.5rem',
+          right: 'clamp(1rem, 5vw, 2rem)',
           zIndex: 999,
           padding: '0.8rem 1.6rem',
           borderRadius: '99px',
@@ -218,10 +218,12 @@ export default function AiChatWidget() {
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             style={{
               position: 'fixed',
-              bottom: '6rem',
-              right: '2rem',
-              width: '385px',
+              bottom: '5.5rem',
+              right: 'clamp(1rem, 5vw, 2rem)',
+              width: 'calc(100vw - 2rem)',
+              maxWidth: '385px',
               height: '520px',
+              maxHeight: 'calc(100vh - 8rem)',
               zIndex: 998,
               borderRadius: '26px',
               background: 'rgba(10, 10, 15, 0.94)',
