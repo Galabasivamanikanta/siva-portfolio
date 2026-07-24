@@ -302,7 +302,7 @@ export default function Hero() {
                   transition={{ duration: 0.2 }}
                   style={{
                     position: 'absolute',
-                    bottom: '-45px',
+                    bottom: '-120%',
                     left: '50%',
                     transform: 'translateX(-50%)',
                     width: '280px',
