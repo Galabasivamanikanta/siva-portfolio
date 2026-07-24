@@ -239,14 +239,7 @@ export default function Hero() {
               {/*
                 4 Dots exactly ON the 100% arc: radius = 50% of container
                 Arc center = (50%, 50%)
-                Angles shifted right to avoid overlapping the suit: -60°, -20°, +20°, +60°
-                x = 50 + 50·cos(θ),  y = 50 + 50·sin(θ)
-                  θ=-60°: x=75.0%, y=6.7%
-                  θ=-20°: x=97.0%, y=32.9%
-                  θ=+20°: x=97.0%, y=67.1%
-                  θ=+60°: x=75.0%, y=93.3%
-              */}
-              {/* Static Dot Container — dots stay in fixed positions */}
+              {/* Static Dot Container — dots stay in fixed positions, only colors shift */}
               <div
                 style={{
                   position: 'absolute',
@@ -257,16 +250,21 @@ export default function Hero() {
                 }}
               >
                 {[
-                  { top: '6.7%',  left: '75.0%' },
-                  { top: '32.9%', left: '97.0%' },
-                  { top: '67.1%', left: '97.0%' },
-                  { top: '93.3%', left: '75.0%' }
-                ].map((pos, idx) => {
-                  const isActive = activeDot === idx;
-                  const dotColor = orbitalDetails[idx].color;
+                  { top: '6.7%',  left: '75.0%' }, // Coord 0
+                  { top: '32.9%', left: '97.0%' }, // Coord 1
+                  { top: '67.1%', left: '97.0%' }, // Coord 2
+                  { top: '93.3%', left: '75.0%' }  // Coord 3 (Active Spotlight)
+                ].map((pos, cIdx) => {
+                  // Calculate which data index this coordinate should display
+                  const dataIdx = (cIdx + activeDot + 1) % 4;
+                  
+                  // Only the dot at Coord 3 is the active highlighted spotlight
+                  const isHighlighted = cIdx === 3; 
+                  const dotColor = orbitalDetails[dataIdx].color;
+                  
                   return (
                     <div
-                      key={idx}
+                      key={cIdx}
                       style={{
                         position: 'absolute',
                         top: pos.top,
@@ -278,21 +276,21 @@ export default function Hero() {
                       <motion.button
                         onClick={() => {
                           sound.playClick();
-                          setActiveDot(idx);
+                          setActiveDot(dataIdx);
                         }}
                         onMouseEnter={() => {
                           sound.playHover();
-                          setActiveDot(idx);
+                          setActiveDot(dataIdx);
                         }}
                         whileHover={{ scale: 1.5 }}
                         style={{
                           display: 'block',
-                          width: isActive ? 22 : 14,
-                          height: isActive ? 22 : 14,
+                          width: isHighlighted ? 22 : 14,
+                          height: isHighlighted ? 22 : 14,
                           borderRadius: '50%',
                           background: dotColor,
                           border: '2px solid #ffffff',
-                          boxShadow: isActive ? `0 0 22px ${dotColor}` : `0 0 10px ${dotColor}`,
+                          boxShadow: isHighlighted ? `0 0 22px ${dotColor}` : `0 0 10px ${dotColor}`,
                           cursor: 'pointer',
                           transition: 'all 0.3s ease'
                         }}
@@ -302,7 +300,7 @@ export default function Hero() {
                 })}
               </div>
 
-              {/* Data Popup — Rendered outside the dots to avoid CSS transform containing block trapping */}
+              {/* Data Popup — Rendered outside the dots at a fixed position right under the bottom dot */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeDot}
@@ -313,18 +311,9 @@ export default function Hero() {
                   transition={{ duration: 0.2 }}
                   style={{
                     position: 'absolute',
-                    top: [
-                      { top: '0%' },
-                      { top: '15%' },
-                      { top: '55%' },
-                      { top: '75%' }
-                    ][activeDot].top,
-                    left: [
-                      { left: 'calc(75% - 295px)' },
-                      { left: 'calc(97% - 295px)' },
-                      { left: 'calc(97% - 295px)' },
-                      { left: 'calc(75% - 295px)' }
-                    ][activeDot].left,
+                    bottom: '-120px', // Fixed position below the bottom dot
+                    left: '75%',      // Centered under the bottom dot on desktop
+                    transform: 'translateX(-50%)',
                     width: '280px',
                     height: 'auto',
                     display: 'block',
@@ -334,6 +323,7 @@ export default function Hero() {
                     border: `1px solid ${orbitalDetails[activeDot].color}60`,
                     boxShadow: `0 10px 30px rgba(0,0,0,0.8), 0 0 20px ${orbitalDetails[activeDot].color}20`,
                     pointerEvents: 'none',
+                    zIndex: 50
                   }}
                 >
                   <div className="flex-row items-center gap-xs" style={{ marginBottom: '0.3rem' }}>
