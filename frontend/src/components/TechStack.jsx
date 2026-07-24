@@ -216,14 +216,14 @@ export default function TechStack() {
               <AnimatePresence>
                 {activeTech === tech.id && (
                   <motion.div
-                    initial={{ opacity: 0, y: 15, scale: 0.9 }}
+                    initial={{ opacity: 0, y: 5, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.9 }}
+                    exit={{ opacity: 0, y: 5, scale: 0.9 }}
                     transition={{ duration: 0.2 }}
                     className="tech-popup"
                     style={{
                       position: 'absolute',
-                      bottom: '120%',
+                      bottom: '130%',
                       left: '50%',
                       transform: 'translateX(-50%)',
                       width: '300px',
