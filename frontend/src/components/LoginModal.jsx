@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Mail, Lock, Loader2, ArrowRight } from 'lucide-react';
+import { X, Mail, Lock, Loader2, ArrowRight, User, Eye, EyeOff, ShieldAlert } from 'lucide-react';
+import { useAuth } from './AuthContext';
 
 export default function LoginModal({ isOpen, onClose }) {
   const [isLoginMode, setIsLoginMode] = useState(true);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const { login } = useAuth();
 
   if (!isOpen) return null;
 
@@ -16,14 +21,63 @@ export default function LoginModal({ isOpen, onClose }) {
     window.location.href = `${backendUrl}/auth/google`;
   };
 
-  const handleEmailSubmit = (e) => {
+  const getPasswordStrength = () => {
+    if (!password) return 0;
+    let score = 0;
+    if (password.length > 6) score += 1;
+    if (password.length >= 10) score += 1;
+    if (/[A-Z]/.test(password)) score += 1;
+    if (/[0-9]/.test(password)) score += 1;
+    if (/[^A-Za-z0-9]/.test(password)) score += 1;
+    return score; // Max 5
+  };
+
+  const strength = getPasswordStrength();
+  const strengthColors = ['#ef4444', '#ef4444', '#f59e0b', '#10b981', '#10b981', '#34d399'];
+  const strengthLabels = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
+
+  const handleEmailSubmit = async (e) => {
     e.preventDefault();
+    setErrorMsg('');
+
+    if (!isLoginMode && strength < 3) {
+      setErrorMsg('Password is too weak. Please use a stronger password.');
+      return;
+    }
+
     setIsLoading(true);
-    // Fake loading for visual effect since we don't have email auth in backend yet
-    setTimeout(() => {
+    
+    const backendUrl = import.meta.env.PROD ? '/api' : 'http://localhost:5000/api';
+    const endpoint = isLoginMode ? '/auth/login' : '/auth/register';
+    const payload = isLoginMode ? { email, password } : { name, email, password };
+
+    try {
+      const response = await fetch(`${backendUrl}${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Authentication failed');
+      }
+
+      // Success
+      login({ token: data.token, ...data.user });
+      onClose(); // Close modal
+    } catch (err) {
+      setErrorMsg(err.message);
+    } finally {
       setIsLoading(false);
-      alert("Email login is coming soon! Please use Google Login for now.");
-    }, 1500);
+    }
+  };
+
+  const resetStateAndToggle = () => {
+    setIsLoginMode(!isLoginMode);
+    setErrorMsg('');
+    setPassword('');
   };
 
   return (
@@ -56,11 +110,11 @@ export default function LoginModal({ isOpen, onClose }) {
           <div style={{ position: 'absolute', top: '-50px', left: '-50px', width: '150px', height: '150px', background: 'rgba(59, 130, 246, 0.3)', filter: 'blur(60px)', borderRadius: '50%', pointerEvents: 'none' }} />
           <div style={{ position: 'absolute', bottom: '-50px', right: '-50px', width: '150px', height: '150px', background: 'rgba(139, 92, 246, 0.3)', filter: 'blur(60px)', borderRadius: '50%', pointerEvents: 'none' }} />
 
-          <button onClick={onClose} style={{ position: 'absolute', top: '1.2rem', right: '1.2rem', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', cursor: 'pointer', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }} onMouseOver={e=>e.currentTarget.style.background='rgba(255,255,255,0.2)'} onMouseOut={e=>e.currentTarget.style.background='rgba(255,255,255,0.1)'}>
+          <button onClick={onClose} style={{ position: 'absolute', top: '1.2rem', right: '1.2rem', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', cursor: 'pointer', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s', zIndex: 10 }} onMouseOver={e=>e.currentTarget.style.background='rgba(255,255,255,0.2)'} onMouseOut={e=>e.currentTarget.style.background='rgba(255,255,255,0.1)'}>
             <X size={16} />
           </button>
           
-          <div style={{ textAlign: 'center', marginBottom: '2rem', position: 'relative', zIndex: 1 }}>
+          <div style={{ textAlign: 'center', marginBottom: '1.5rem', position: 'relative', zIndex: 1 }}>
             <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '0.5rem', background: 'linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               {isLoginMode ? 'Welcome Back' : 'Create Account'}
             </h2>
@@ -68,8 +122,30 @@ export default function LoginModal({ isOpen, onClose }) {
               {isLoginMode ? 'Sign in to access your dashboard' : 'Join to explore the portfolio'}
             </p>
           </div>
+
+          {errorMsg && (
+            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '8px', padding: '0.8rem', color: '#f87171', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.2rem', position: 'relative', zIndex: 1 }}>
+              <ShieldAlert size={16} />
+              {errorMsg}
+            </motion.div>
+          )}
           
           <form onSubmit={handleEmailSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', position: 'relative', zIndex: 1 }}>
+            
+            {!isLoginMode && (
+              <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} style={{ position: 'relative' }}>
+                <User size={18} color="rgba(255,255,255,0.4)" style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)' }} />
+                <input 
+                  type="text" 
+                  placeholder="Full Name" 
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  required={!isLoginMode}
+                  style={{ width: '100%', padding: '0.9rem 1rem 0.9rem 2.8rem', borderRadius: '12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', fontSize: '0.95rem', outline: 'none' }}
+                />
+              </motion.div>
+            )}
+
             <div style={{ position: 'relative' }}>
               <Mail size={18} color="rgba(255,255,255,0.4)" style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)' }} />
               <input 
@@ -85,14 +161,42 @@ export default function LoginModal({ isOpen, onClose }) {
             <div style={{ position: 'relative' }}>
               <Lock size={18} color="rgba(255,255,255,0.4)" style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)' }} />
               <input 
-                type="password" 
+                type={showPassword ? "text" : "password"} 
                 placeholder="Password" 
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 required
-                style={{ width: '100%', padding: '0.9rem 1rem 0.9rem 2.8rem', borderRadius: '12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', fontSize: '0.95rem', outline: 'none' }}
+                style={{ width: '100%', padding: '0.9rem 2.8rem 0.9rem 2.8rem', borderRadius: '12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', fontSize: '0.95rem', outline: 'none' }}
               />
+              <button 
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ position: 'absolute', right: '1rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.4)', padding: 0 }}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
+
+            {!isLoginMode && password.length > 0 && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', marginTop: '-0.5rem', marginBottom: '0.5rem', padding: '0 0.5rem' }}>
+                <div style={{ display: 'flex', gap: '4px', height: '4px', width: '100%' }}>
+                  {[1, 2, 3, 4, 5].map((level) => (
+                    <div 
+                      key={level} 
+                      style={{ 
+                        flex: 1, 
+                        borderRadius: '2px', 
+                        background: strength >= level ? strengthColors[strength] : 'rgba(255,255,255,0.1)',
+                        transition: 'background 0.3s ease'
+                      }} 
+                    />
+                  ))}
+                </div>
+                <span style={{ fontSize: '0.75rem', color: strengthColors[strength], textAlign: 'right' }}>
+                  {strengthLabels[strength]}
+                </span>
+              </div>
+            )}
 
             <button 
               type="submit"
@@ -140,7 +244,8 @@ export default function LoginModal({ isOpen, onClose }) {
               {isLoginMode ? "Don't have an account? " : "Already have an account? "}
             </span>
             <button 
-              onClick={() => setIsLoginMode(!isLoginMode)}
+              type="button"
+              onClick={resetStateAndToggle}
               style={{ background: 'none', border: 'none', color: '#60a5fa', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}
             >
               {isLoginMode ? 'Sign up' : 'Sign in'}

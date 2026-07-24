@@ -8,6 +8,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const axios = require('axios');
+const bcrypt = require('bcryptjs');
 const Recruiter = require('./models/Recruiter');
 
 const app = express();
@@ -79,6 +80,80 @@ apiRouter.get('/auth/google/callback', passport.authenticate('google', { session
   const token = jwt.sign({ id: req.user._id, role: req.user.role }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
   res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
   res.redirect(`${process.env.FRONTEND_URL}?token=${token}&name=${encodeURIComponent(req.user.name)}&email=${encodeURIComponent(req.user.email)}&role=${req.user.role}`);
+});
+
+// Manual Registration Route
+apiRouter.post('/auth/register', async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    
+    // Check if user exists
+    let existingUser = await Recruiter.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ success: false, error: 'Email is already in use.' });
+    }
+
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create user
+    const username = `user_${Math.random().toString(36).substr(2, 6)}`;
+    const role = email === process.env.ADMIN_EMAIL ? 'admin' : 'recruiter';
+    
+    const newUser = await Recruiter.create({
+      name,
+      email,
+      password: hashedPassword,
+      username,
+      role
+    });
+
+    await sendAdminAlert(newUser);
+
+    // Generate JWT
+    const token = jwt.sign({ id: newUser._id, role: newUser.role }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
+    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    
+    res.status(201).json({ success: true, token, user: { name: newUser.name, email: newUser.email, role: newUser.role } });
+  } catch (error) {
+    console.error('Registration Error:', error);
+    res.status(500).json({ success: false, error: 'Server error during registration.' });
+  }
+});
+
+// Manual Login Route
+apiRouter.post('/auth/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await Recruiter.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ success: false, error: 'Invalid email or password.' });
+    }
+
+    if (!user.password) {
+      return res.status(400).json({ success: false, error: 'This email is linked to a Google account. Please use Google Login.' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ success: false, error: 'Invalid email or password.' });
+    }
+
+    // Update visit count
+    user.visits.push(new Date());
+    await user.save();
+
+    // Generate JWT
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
+    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    
+    res.status(200).json({ success: true, token, user: { name: user.name, email: user.email, role: user.role } });
+  } catch (error) {
+    console.error('Login Error:', error);
+    res.status(500).json({ success: false, error: 'Server error during login.' });
+  }
 });
 
 // Middleware for protected routes
