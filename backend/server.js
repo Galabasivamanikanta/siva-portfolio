@@ -69,10 +69,13 @@ passport.use(new GoogleStrategy({
 
 app.use(passport.initialize());
 
-// Auth Routes
-app.get('/api/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+// API Router to handle both /api and / routes due to Vercel path stripping
+const apiRouter = express.Router();
 
-app.get('/api/auth/google/callback', passport.authenticate('google', { session: false }), (req, res) => {
+// Auth Routes
+apiRouter.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+apiRouter.get('/auth/google/callback', passport.authenticate('google', { session: false }), (req, res) => {
   const token = jwt.sign({ id: req.user._id, role: req.user.role }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
   res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
   res.redirect(`${process.env.FRONTEND_URL}?token=${token}&name=${encodeURIComponent(req.user.name)}&email=${encodeURIComponent(req.user.email)}&role=${req.user.role}`);
@@ -90,7 +93,7 @@ const authenticateToken = (req, res, next) => {
 };
 
 // Protected Routes
-app.get('/api/admin/visits', authenticateToken, async (req, res) => {
+apiRouter.get('/admin/visits', authenticateToken, async (req, res) => {
   if (req.user.role !== 'admin') return res.sendStatus(403);
   try {
     const visits = await Recruiter.find().sort({ updatedAt: -1 });
@@ -100,7 +103,7 @@ app.get('/api/admin/visits', authenticateToken, async (req, res) => {
   }
 });
 
-app.post('/api/resume/generate', authenticateToken, async (req, res) => {
+apiRouter.post('/resume/generate', authenticateToken, async (req, res) => {
   try {
     const { roleInterest } = req.body;
     
@@ -125,7 +128,7 @@ app.post('/api/resume/generate', authenticateToken, async (req, res) => {
 });
 
 // Contact Form Endpoint
-app.post('/api/contact', async (req, res) => {
+apiRouter.post('/contact', async (req, res) => {
   const { name, email, subject, message } = req.body;
   
   if (!name || !email || !message) {
@@ -153,6 +156,10 @@ app.post('/api/contact', async (req, res) => {
     res.status(500).json({ success: false, error: 'Failed to send email' });
   }
 });
+
+// Mount the router on both /api and / to handle Vercel Serverless routing quirks
+app.use('/api', apiRouter);
+app.use('/', apiRouter);
 
 const PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV !== 'production') {
