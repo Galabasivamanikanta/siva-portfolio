@@ -246,50 +246,63 @@ export default function Hero() {
                   θ=+20°: x=97.0%, y=67.1%
                   θ=+60°: x=75.0%, y=93.3%
               */}
-              {[
-                { top: '6.7%',  left: '75.0%', popupLeft: true,  popupTop: '-10px' },
-                { top: '32.9%', left: '97.0%', popupLeft: true,  popupTop: '-10px' },
-                { top: '67.1%', left: '97.0%', popupLeft: true,  popupTop: '-10px' },
-                { top: '93.3%', left: '75.0%', popupLeft: true,  popupTop: '-80px' }
-              ].map((pos, idx) => {
-                const isActive = activeDot === idx;
-                const dotColor = orbitalDetails[idx].color;
-                return (
-                  <div
-                    key={idx}
-                    style={{
-                      position: 'absolute',
-                      top: pos.top,
-                      left: pos.left,
-                      transform: 'translate(-50%, -50%)',
-                      zIndex: 30,
-                    }}
-                  >
-                    <motion.button
-                      onClick={() => {
-                        sound.playClick();
-                        setActiveDot(idx);
-                      }}
-                      onMouseEnter={() => {
-                        sound.playHover();
-                        setActiveDot(idx);
-                      }}
-                      whileHover={{ scale: 1.5 }}
+              {/* Rotating Dot Container — physically rotates the dots along the orbital track */}
+              <motion.div
+                style={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  pointerEvents: 'none',
+                  zIndex: 30
+                }}
+                animate={{ rotate: -activeDot * 40 }}
+                transition={{ type: 'spring', stiffness: 60, damping: 15 }}
+              >
+                {[
+                  { top: '6.7%',  left: '75.0%' },
+                  { top: '32.9%', left: '97.0%' },
+                  { top: '67.1%', left: '97.0%' },
+                  { top: '93.3%', left: '75.0%' }
+                ].map((pos, idx) => {
+                  const isActive = activeDot === idx;
+                  const dotColor = orbitalDetails[idx].color;
+                  return (
+                    <div
+                      key={idx}
                       style={{
-                        display: 'block',
-                        width: isActive ? 22 : 14,
-                        height: isActive ? 22 : 14,
-                        borderRadius: '50%',
-                        background: dotColor,
-                        border: '2px solid #ffffff',
-                        boxShadow: isActive ? `0 0 22px ${dotColor}` : `0 0 10px ${dotColor}`,
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease'
+                        position: 'absolute',
+                        top: pos.top,
+                        left: pos.left,
+                        transform: 'translate(-50%, -50%)',
+                        pointerEvents: 'auto'
                       }}
-                    />
-                  </div>
-                );
-              })}
+                    >
+                      <motion.button
+                        onClick={() => {
+                          sound.playClick();
+                          setActiveDot(idx);
+                        }}
+                        onMouseEnter={() => {
+                          sound.playHover();
+                          setActiveDot(idx);
+                        }}
+                        whileHover={{ scale: 1.5 }}
+                        style={{
+                          display: 'block',
+                          width: isActive ? 22 : 14,
+                          height: isActive ? 22 : 14,
+                          borderRadius: '50%',
+                          background: dotColor,
+                          border: '2px solid #ffffff',
+                          boxShadow: isActive ? `0 0 22px ${dotColor}` : `0 0 10px ${dotColor}`,
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease'
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+              </motion.div>
 
               {/* Data Popup — Rendered outside the dots to avoid CSS transform containing block trapping */}
               <AnimatePresence mode="wait">
@@ -302,7 +315,7 @@ export default function Hero() {
                   transition={{ duration: 0.2 }}
                   style={{
                     position: 'absolute',
-                    bottom: '-120%',
+                    bottom: '-120px',
                     left: '50%',
                     transform: 'translateX(-50%)',
                     width: '280px',
