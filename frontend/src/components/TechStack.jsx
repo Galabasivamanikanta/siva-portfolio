@@ -222,7 +222,19 @@ export default function TechStack() {
                     transition={{ duration: 0.2 }}
                     className="tech-popup"
                     style={{
-                      border: `1px solid ${tech.color}60`
+                      position: 'absolute',
+                      bottom: '120%',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      width: '300px',
+                      padding: '1.2rem',
+                      background: 'rgba(10, 10, 15, 0.96)',
+                      borderRadius: '18px',
+                      border: `1px solid ${tech.color}60`,
+                      boxShadow: `0 25px 50px rgba(0,0,0,0.95), 0 0 30px ${tech.color}20`,
+                      pointerEvents: 'none',
+                      zIndex: 100,
+                      textAlign: 'left'
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '0.8rem' }}>
