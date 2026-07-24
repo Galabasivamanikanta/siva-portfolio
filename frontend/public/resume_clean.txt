@@ -1,0 +1,56 @@
+SIVA MANIKANTA GALABA
+MERN Stack Developer & AI Engineer
+
+Location: Andhra Pradesh, India
+Phone: +91 8374082783
+Email: galabasivamanikanta8@gmail.com
+LinkedIn: linkedin.com/in/siva-manikanta-galaba-3a769b33a
+GitHub: github.com/Galabasivamanikanta
+
+PROFESSIONAL SUMMARY
+Results-driven MERN Stack Developer and Artificial Intelligence Engineering student. Experienced in designing scalable full-stack web applications using React.js, Node.js, and MongoDB. Proficient in RESTful API architecture, authentication, and cloud deployment. Adept at integrating Generative AI and Model Context Protocol (MCP) to automate workflows. Seeking a software engineering role to leverage technical skills and build high-performance solutions.
+
+TECHNICAL SKILLS
+• Programming Languages: JavaScript (ES6+), HTML5, CSS3, SQL, Python
+• Frontend Technologies: React.js, Tailwind CSS, Bootstrap, Vite, shadcn/ui
+• Backend Technologies: Node.js, Express.js, RESTful APIs, Supabase (Auth, Postgres)
+• Databases: MongoDB Atlas, PostgreSQL, MySQL
+• Security & Tools: JSON Web Tokens (JWT), Google OAuth 2.0, Git, Row-Level Security (RLS)
+• Soft Skills: Problem Solving, Team Collaboration, Project Management, Agile Methodologies
+
+PROJECT EXPERIENCE
+
+CineWave — Full-Stack Movie Ticket Booking Platform
+Lead Developer | 2024 – Present
+• Developed a full-stack movie ticket booking application using React and TypeScript.
+• Integrated TMDB and OMDb REST APIs to fetch live movie catalogs and metadata.
+• Engineered a secure backend using Supabase with JWT authentication and Row-Level Security policies.
+• Synchronized real-time seat availability using Supabase to prevent booking errors during high traffic.
+
+DiagnoLabs — Healthcare Diagnostic Platform
+Full Stack Developer | 2024
+• Built a comprehensive healthcare platform enabling patients to securely book accredited diagnostic lab tests.
+• Implemented user authentication via Google OAuth 2.0 and JWT to ensure strict data protection.
+• Integrated an AI health chatbot and automated email alerts using Nodemailer to improve communication.
+• Deployed the frontend on Netlify and backend on Render with MongoDB Atlas for scalable storage.
+
+DelishDash — Food & Recipe Discovery Portal
+Frontend Developer | 2023
+• Designed a multi-category food ordering web application with dynamic menu filtering and interactive cart.
+• Programmed live bill calculation and order history tracking algorithms using JavaScript to enhance checkout.
+
+EDUCATION
+
+Parul University
+Bachelor of Technology in Computer Science Engineering (AI & ML)
+Graduation Year: 2028 (Expected)
+
+A.M.Reddy Memorial College of Engineering and Technology
+Diploma in Electrical and Electronics Engineering
+Graduation Year: 2024 | Score: 78.22%
+
+
+
+CERTIFICATIONS
+• Full-Stack Web Development (CCBP 4.0) — NxtWave Technologies 
+• MERN Stack Development & API Security — NxtWave 
