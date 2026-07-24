@@ -101,7 +101,7 @@ export default function SocialProfiles() {
         {/* Minimal Floating Logos Row */}
         <div style={{ display: 'flex', justifyContent: 'center', gap: '2.5rem', flexWrap: 'wrap', position: 'relative' }}>
           {socialLinks.map((social) => (
-            <div key={social.id} style={{ position: 'relative' }}>
+            <div key={social.id} className="tech-icon-wrapper">
               
               {/* Floating Official Brand Logo Button */}
               <motion.button
@@ -141,13 +141,25 @@ export default function SocialProfiles() {
               <AnimatePresence>
                 {activeCard === social.id && (
                   <motion.div
-                    initial={{ opacity: 0, y: 15, scale: 0.9 }}
+                    initial={{ opacity: 0, y: 5, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.9 }}
+                    exit={{ opacity: 0, y: 5, scale: 0.9 }}
                     transition={{ duration: 0.2 }}
                     className="tech-popup"
                     style={{
-                      border: `1px solid ${social.color}60`
+                      position: 'absolute',
+                      bottom: '130%',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      width: '300px',
+                      padding: '1.2rem',
+                      background: 'rgba(10, 10, 15, 0.96)',
+                      borderRadius: '18px',
+                      border: `1px solid ${social.color}60`,
+                      boxShadow: `0 25px 50px rgba(0,0,0,0.95), 0 0 30px ${social.color}20`,
+                      pointerEvents: 'none',
+                      zIndex: 100,
+                      textAlign: 'left'
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '0.8rem' }}>
