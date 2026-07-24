@@ -10,8 +10,7 @@ export default function Skills() {
       items: [
         { name: 'React.js & React Router', percent: 90, status: 'Active / Mastered' },
         { name: 'JavaScript (ES6+) & Async JS', percent: 92, status: 'Active / Mastered' },
-        { name: 'HTML5, CSS3 & Responsive Design', percent: 95, status: 'Active / Mastered' },
-        { name: 'Tailwind CSS & Glassmorphism', percent: 85, status: 'Active / Mastered' }
+        { name: 'HTML5, CSS3 & Responsive Design', percent: 95, status: 'Active / Mastered' }
       ]
     },
     {
@@ -20,8 +19,7 @@ export default function Skills() {
       items: [
         { name: 'Node.js & Express API Design', percent: 90, status: 'Active / Mastered' },
         { name: 'RESTful API Architecture', percent: 95, status: 'Active / Mastered' },
-        { name: 'JWT & Google OAuth Security', percent: 88, status: 'Active / Mastered' },
-        { name: 'Python FastAPI Microservices', percent: 80, status: 'Active / Upskilling' }
+        { name: 'JWT & Google OAuth Security', percent: 88, status: 'Active / Mastered' }
       ]
     },
     {
