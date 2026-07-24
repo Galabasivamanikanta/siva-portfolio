@@ -287,42 +287,57 @@ export default function Hero() {
                         transition: 'all 0.3s ease'
                       }}
                     />
-
-                    {/* Data Popup — to the RIGHT of the dot to avoid overlapping the face */}
-                    <AnimatePresence>
-                      {isActive && (
-                        <motion.div
-                          key={idx}
-                          className="tech-popup"
-                          initial={{ opacity: 0, scale: 0.85, x: -10 }}
-                          animate={{ opacity: 1, scale: 1, x: 0 }}
-                          exit={{ opacity: 0, scale: 0.85 }}
-                          transition={{ duration: 0.2 }}
-                          style={{
-                            top: pos.popupTop,
-                            left: '45px', // Fixed pixel value guarantees it completely clears the dot and shadow
-                            border: `1px solid ${dotColor}60`,
-                            boxShadow: `0 10px 30px rgba(0,0,0,0.8), 0 0 20px ${dotColor}20`
-                          }}
-                        >
-                          <div className="flex-row items-center gap-xs" style={{ marginBottom: '0.3rem' }}>
-                            <CheckCircle2 size={13} color={dotColor} />
-                            <h4 style={{ fontSize: '0.82rem', color: '#ffffff', fontWeight: 800, lineHeight: 1.2 }}>
-                              {orbitalDetails[idx].title}
-                            </h4>
-                          </div>
-                          <p style={{ fontSize: '0.72rem', color: dotColor, fontWeight: 600, marginBottom: '0.3rem' }}>
-                            {orbitalDetails[idx].subtitle}
-                          </p>
-                          <p style={{ fontSize: '0.70rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
-                            {orbitalDetails[idx].desc}
-                          </p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
                   </div>
                 );
               })}
+
+              {/* Data Popup — Rendered outside the dots to avoid CSS transform containing block trapping */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeDot}
+                  className="tech-popup"
+                  initial={{ opacity: 0, scale: 0.85, x: -10 }}
+                  animate={{ opacity: 1, scale: 1, x: 0 }}
+                  exit={{ opacity: 0, scale: 0.85 }}
+                  transition={{ duration: 0.2 }}
+                  style={{
+                    position: 'absolute',
+                    top: [
+                      { top: '6.7%',  left: '75.0%', popupLeft: 'calc(75% + 25px)', popupTop: '0%' },
+                      { top: '32.9%', left: '97.0%', popupLeft: 'calc(97% + 25px)', popupTop: '20%' },
+                      { top: '67.1%', left: '97.0%', popupLeft: 'calc(97% + 25px)', popupTop: '60%' },
+                      { top: '93.3%', left: '75.0%', popupLeft: 'calc(75% + 25px)', popupTop: '85%' }
+                    ][activeDot].popupTop,
+                    left: [
+                      { top: '6.7%',  left: '75.0%', popupLeft: 'calc(75% + 25px)', popupTop: '0%' },
+                      { top: '32.9%', left: '97.0%', popupLeft: 'calc(97% + 25px)', popupTop: '20%' },
+                      { top: '67.1%', left: '97.0%', popupLeft: 'calc(97% + 25px)', popupTop: '60%' },
+                      { top: '93.3%', left: '75.0%', popupLeft: 'calc(75% + 25px)', popupTop: '85%' }
+                    ][activeDot].popupLeft,
+                    width: '240px',
+                    padding: '0.85rem 1rem',
+                    borderRadius: '14px',
+                    background: 'rgba(8, 8, 16, 0.97)',
+                    border: `1px solid ${orbitalDetails[activeDot].color}60`,
+                    boxShadow: `0 10px 30px rgba(0,0,0,0.8), 0 0 20px ${orbitalDetails[activeDot].color}20`,
+                    pointerEvents: 'none',
+                    zIndex: 50
+                  }}
+                >
+                  <div className="flex-row items-center gap-xs" style={{ marginBottom: '0.3rem' }}>
+                    <CheckCircle2 size={13} color={orbitalDetails[activeDot].color} />
+                    <h4 style={{ fontSize: '0.82rem', color: '#ffffff', fontWeight: 800, lineHeight: 1.2 }}>
+                      {orbitalDetails[activeDot].title}
+                    </h4>
+                  </div>
+                  <p style={{ fontSize: '0.72rem', color: orbitalDetails[activeDot].color, fontWeight: 600, marginBottom: '0.3rem' }}>
+                    {orbitalDetails[activeDot].subtitle}
+                  </p>
+                  <p style={{ fontSize: '0.70rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+                    {orbitalDetails[activeDot].desc}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
 
             </div>
           </motion.div>
