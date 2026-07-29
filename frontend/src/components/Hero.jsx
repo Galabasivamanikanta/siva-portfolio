@@ -178,7 +178,7 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, delay: 0.8 }}
-            className="flex-center"
+            className="flex-center hero-image-container"
             style={{ position: 'relative', marginTop: '2rem', order: 1 }}
           >
             <div
@@ -311,9 +311,9 @@ export default function Hero() {
                   transition={{ duration: 0.2 }}
                   style={{
                     position: 'absolute',
-                    bottom: '-120px', // Fixed position below the bottom dot
-                    left: '75%',      // Centered under the bottom dot on desktop
-                    transform: 'translateX(-50%)',
+                    bottom: '-40px',
+                    left: 'calc(75% + 20px)',
+                    transform: 'none',
                     width: '280px',
                     height: 'auto',
                     display: 'block',

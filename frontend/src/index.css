@@ -189,7 +189,7 @@ h1, h2, h3, h4 {
   .tech-popup {
     position: absolute !important;
     top: auto !important;
-    bottom: -15px !important;
+    bottom: -100px !important;
     left: 50% !important;
     right: auto !important;
     transform: translateX(-50%) !important;
@@ -291,5 +291,9 @@ h1, h2, h3, h4 {
   /* Helper to hide things on mobile */
   .hidden-mobile {
     display: none !important;
+  }
+
+  .hero-image-container {
+    margin-bottom: 120px !important;
   }
 }
