@@ -296,4 +296,13 @@ h1, h2, h3, h4 {
   .hero-image-container {
     margin-bottom: 120px !important;
   }
+
+  .modal-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }

@@ -74,7 +74,7 @@ export default function ProjectModal({ project, onClose }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             
             {/* Problem & Solution */}
-            <div className="grid-2-col" style={{ gap: '1.5rem' }}>
+            <div className="modal-grid" style={{ gap: '1.5rem' }}>
               <div style={{ background: 'rgba(239, 68, 68, 0.05)', border: '1px solid rgba(239, 68, 68, 0.2)', padding: '1.5rem', borderRadius: '14px' }}>
                 <h4 style={{ color: '#f87171', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.8rem', fontSize: '1.05rem' }}>
                   <ShieldAlert size={18} /> Problem Statement
