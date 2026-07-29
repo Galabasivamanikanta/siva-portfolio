@@ -98,8 +98,7 @@ export default function Projects() {
         'Secure End-to-End Test Booking & Report Portal',
         'Integrated AI-Powered Health Guidance Chatbot',
         'Google OAuth Authentication & Passport.js Middleware',
-        'Recruiter Telemetry Logging & MongoDB Atlas Database',
-        'Dynamic ML Resume Generation Microservice'
+        'Recruiter Telemetry Logging & MongoDB Atlas Database'
       ],
       tech: ['React', 'Node.js', 'Express.js', 'MongoDB', 'JWT', 'Tailwind CSS'],
       liveUrl: 'https://diagnolabs.netlify.app/',
